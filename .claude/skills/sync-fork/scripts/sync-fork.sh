@@ -73,14 +73,14 @@ echo
 echo "=== $behind new commit(s) from your instructor ==="
 git log --oneline --no-decorate "HEAD..upstream/$default_branch"
 echo
-echo "=== files they change ==="
-git diff --stat "HEAD..upstream/$default_branch"
+echo "=== files they change (three-dot diff: only their changes, so files that exist only in your fork are not shown as deletions) ==="
+git diff --stat "HEAD...upstream/$default_branch"
 
 # --- 4. collision check: incoming files vs. your uncommitted work ------------
 # Paths in this repo contain spaces, so git quotes them and awk-splitting mangles
 # them. Strip the 2-char status code + space, then the surrounding quotes.
 unquote() { sed 's/^"//; s/"$//'; }
-incoming=$(git diff --name-only "HEAD..upstream/$default_branch" | unquote | sort -u)
+incoming=$(git diff --name-only "HEAD...upstream/$default_branch" | unquote | sort -u)
 yours=$(git status --porcelain | cut -c4- | unquote | sort -u)
 collisions=$(comm -12 <(echo "$incoming") <(echo "$yours") || true)
 

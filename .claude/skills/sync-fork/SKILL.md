@@ -71,3 +71,7 @@ For `utils/` and other `.py` files, a normal three-way merge is fine.
   sync. If a new lecture needs data, the student downloads it separately.
 - If the user only wants to *see* what changed without syncing:
   `git fetch upstream && git log --oneline HEAD..upstream/main`.
+- Files that exist only in the fork (including this skill under `.claude/skills/`) are
+  never deleted by a sync: the merge keeps anything the instructor didn't touch, and the
+  "files they change" preview uses a three-dot diff so they aren't listed as deletions.
+  If a preview ever seems to show them removed, that is a display bug, not a real change.
